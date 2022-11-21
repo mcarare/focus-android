@@ -1,23 +1,17 @@
-package org.mozilla.focus.widget;
+package org.mozilla.focus.widget
 
-import android.content.Context;
-import androidx.preference.Preference;
-import android.util.AttributeSet;
+import android.content.Context
+import android.util.AttributeSet
+import androidx.preference.Preference
+import org.mozilla.focus.R
 
-import org.mozilla.focus.R;
-
-public class AboutPreference extends Preference {
-    public AboutPreference(Context context, AttributeSet attrs,
-                           int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        final String appName = getContext().getResources().getString(R.string.app_name);
-        final String title = getContext().getResources().getString(R.string.preference_about, appName);
-
-        setTitle(title);
-    }
-
-    public AboutPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+class AboutPreference @JvmOverloads constructor(
+    context: Context?, attrs: AttributeSet?,
+    defStyleAttr: Int = 0
+) : Preference(context, attrs, defStyleAttr) {
+    init {
+        val appName = getContext().resources.getString(R.string.app_name)
+        val title = getContext().resources.getString(R.string.preference_about, appName)
+        setTitle(title)
     }
 }
