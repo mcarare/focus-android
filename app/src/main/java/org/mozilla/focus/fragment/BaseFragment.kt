@@ -5,16 +5,29 @@
 package org.mozilla.focus.fragment
 
 import android.content.res.Resources
+import android.os.Build
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import mozilla.components.lib.auth.canUseBiometricFeature
 import org.mozilla.focus.ext.hideToolbar
+import org.mozilla.focus.ext.settings
 
 abstract class BaseFragment : Fragment() {
     private var animationSet: AnimationSet? = null
 
+    override fun onPause() {
+        super.onPause()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            requireContext().settings.shouldUseBiometrics() &&
+            requireContext().canUseBiometricFeature()
+        ) {
+            // Hide the fragment at this point so is is no longer visible on user returning to the app.
+            requireActivity().supportFragmentManager.beginTransaction().hide(this).commit()
+        }
+    }
     override fun onResume() {
         super.onResume()
         hideToolbar()
